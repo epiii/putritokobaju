@@ -6,10 +6,10 @@ $database  = "toko";
 // $database  = "putriajax";
 $host_name = "localhost";
 
-$con = mysqli_connect($host_name, $user_name, $password, $database);
-mysqli_select_db($con, $database);
+$conn = mysqli_connect($host_name, $user_name, $password, $database);
+mysqli_select_db($conn, $database);
 
-if ($con || mysqli_select_db($con, $database)) {
+if ($conn || mysqli_select_db($conn, $database)) {
 
 } else {
     echo " failed";

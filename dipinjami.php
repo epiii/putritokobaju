@@ -1,6 +1,6 @@
 <?php
 require_once 'lib/koneksi.php';
-require_once 'lib/lib.php';
+require_once 'lib/fungsi.php';
 ?>
 <html>
 <head>
@@ -41,9 +41,8 @@ require_once 'lib/lib.php';
 		<div class="container">
 			<div class="card">
 				<div class="card-body">
-					<h2>DATA</h2>
-					<p>Data Parameter.</p>
-
+					<h2>Notifikasi </h2>
+					<p>(halaman toko Peminjam)</p>
 					<br />
 
 					<!-- <div id="alertinfo" class="alert alert-success alert-dismissible"> -->
@@ -54,53 +53,72 @@ require_once 'lib/lib.php';
 					  </span>
 					</div>
 
-					<form method="post" onsubmit="saveform();return false;">
-						<div class="form-group row">
-							<label for="nama" class="col-sm-2 col-form-label">Nama</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" required/>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label for="nama" class="col-sm-2 col-form-label">No Telpon</label>
-							<div class="col-sm-10">
-								<!-- <input type="text"  class="form-control" id="no_tlp" name="no_tlp" placeholder="No Telpon" required/> -->
-								<input type="number" min="1" xmax="13" class="form-control" id="no_tlp" name="no_tlp" placeholder="No Telpon" required/>
-							</div>
-						</div>
 
-						<?php
-							$sql  = 'SELECT param2, nama FROM parameter WHERE param1 = "type"';
-							$exe  = mysqli_query($con,$sql);
-						?>
-						<div class="form-group row">
-							<label for="harga" class="col-sm-2 col-form-label">Jenis</label>
-							<div class="col-sm-10">
-								<select required onchange="hargacb(this.value);" class="form-control" id="jeniscombo" name="jeniscombo">
-									<option value="" selected> -- Pilih --</option>
-									<?php
-										while ($res=mysqli_fetch_assoc($exe)){
-											echo '<option value="'.$res['param2'].'">'.$res['nama'].'</option>';
-										}
-									?>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label for="harga" class="col-sm-2 col-form-label">Harga</label>
-							<div class="col-sm-10">
-							<select required  class="form-control" id="hargacombo" name="hargacombo">
-								<option value="" selected> -- Pilih Jenis dahulu --</option>
-							</select>
-							</div>
-						</div>
-						<div class="form-group row">
-	    	        		<div class="offset-sm-2 col-sm-10">
-            					<input type="submit" id="submit" value="Simpan" class="btn btn-info" />
+	        <!-- confirmation Dialog -->
+	        <div class="modal fade" id="confirmModal" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+	          <div class="modal-dialog">
+	            <div class="modal-content">
+	              <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title"></h4>
+	              </div>
+	              <div class="modal-body">
+	                <p>Are you sure about this ?</p>
+	              </div>
+	              <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+	                <button type="button" class="btn btn-success" id="confirm">OK</button>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
 
-            				</div>
-	            		</div>
-					</form>
+					<?php
+						$dipinjami = 'A';
+						$s = 'SELECT
+									  	idPinjam,
+									  	kode,
+									  	status,
+											toko1,
+											merk,
+									  	ukuran,
+									  	jumlah,
+									  	status,
+									  	jenisBarang,
+									  	date(tglPinjam)tgl_pinjam,
+									    curdate() tgl_skrg,
+											abs(datediff(date(tglPinjam),date(curdate()))) selisih_hari
+									FROM
+									  	pinjam
+									WHERE
+									  	toko2 = "'.$dipinjami.'"
+									  	AND status = "approved"
+											AND abs(datediff(date(tglPinjam),date(curdate())))<=7
+									ORDER BY
+									    tgl_pinjam asc
+									    ';
+						$e=mysqli_query($conn,$s);
+						while ($r=mysqli_fetch_assoc($e)) {
+							$alerts.='<div id="idAlert_'.$r['idPinjam'].'" class="alert alert-success">
+									<a href="#" class="btn btn-xs btn-success pull-right"
+										data-title="Konfirmasi "
+										data-toggle="modal"
+										data-target="#confirmModal"
+										onclick="ambilBarang('.$r['idPinjam'].')"
+										data-message="Yakin anda sudah mengambil \''.$r['jenisBarang'].' \' ?"
+										>
+										ambil
+									</a>
+									Toko <strong>'.$r['toko1'].'</strong> telah menyediakan barang dengan
+									jenis <b>'.$r['jenisBarang'].'</b>,
+									merk <b>'.$r['merk'].'</b>,
+									ukuran <b> '.$r['ukuran'].'</b>,
+									sebanyak <b> '.$r['jumlah'].'</b>,
+
+								</div>';
+						} echo $alerts;
+					 ?>
+
 				</div>
 			</div>
 
@@ -148,14 +166,14 @@ require_once 'lib/lib.php';
 		}
 
 		function saveform(){
-	        var urlx ='&mode=create';
-	        $.ajax({
-	            url:'action.php',
-	            cache:false,
-	            type:'post',
-	            dataType:'json',
-	            data:$('form').serialize()+urlx,
-				beforeSend:function () {
+      var urlx ='&mode=create';
+      $.ajax({
+          url:'action.php',
+          cache:false,
+          type:'post',
+          dataType:'json',
+          data:$('form').serialize()+urlx,
+					beforeSend:function () {
 					$('.pageLoader').removeAttr('style');
 				},success:function(dt){
 					setTimeout(function(){
@@ -184,6 +202,41 @@ require_once 'lib/lib.php';
 	    	$('#jeniscombo').val('');
 	    	$('#hargacombo').val('');
 	    }
+// ----------------
+			$('#confirmModal').on('show.bs.modal', function (e) {
+				 $message = $(e.relatedTarget).attr('data-message');
+				 $(this).find('.modal-body p').text($message);
+				 $title = $(e.relatedTarget).attr('data-title');
+				 $(this).find('.modal-title').text($title);
+			 });
+
+			 function ambilBarang(id) {
+			 	$('#confirm').on('click',function(){
+			 		$.ajax({
+			 			url:'dipinjamiProses.php',
+			 			data:{'action':'ambil','idPinjam':id},
+			 			method:'post',
+			 			dataType:'json',
+						beforeSend:function () {
+							$('.pageLoader').removeAttr('style');
+						},
+						success:function(dt){ // success
+							setTimeout(function(){ //setTimeout
+								$('.pageLoader').attr('style','display:none');
+				 				if(dt.status!='success')
+									alert(dt.status);
+				 				else { // else
+				 					$('#confirmModal').modal('hide');
+									$('#idAlert_'+id).fadeOut('slow',function(){
+		                $('#idAlert_'+id).remove();
+				 					});
+								} // end of else
+			 				},700); // setTimeout
+			 			} // end of success
+			 		}); // end of ajax
+			 	});// end of on click
+			} // end of function
+
 	</script>
 
 </html>
