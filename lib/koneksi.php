@@ -2,7 +2,7 @@
 
 $user_name = "root";
 $password  = "9kali9=81ub";
-$database  = "toko";
+$database  = "putritokobaju";
 // $database  = "putriajax";
 $host_name = "localhost";
 

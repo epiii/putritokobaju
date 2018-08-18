@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 14, 2018 at 09:25 PM
--- Server version: 5.7.22-0ubuntu0.17.10.1
--- PHP Version: 7.1.17-0ubuntu0.17.10.1
+-- Generation Time: Aug 18, 2018 at 03:40 PM
+-- Server version: 5.7.21-0ubuntu0.16.04.1
+-- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `toko`
+-- Database: `putritokobaju`
 --
 
 -- --------------------------------------------------------
@@ -126,7 +126,7 @@ CREATE TABLE `pinjam` (
   `merk` varchar(30) NOT NULL,
   `tglPinjam` datetime NOT NULL,
   `toko2` varchar(10) NOT NULL,
-  `status` varchar(5) NOT NULL
+  `status` enum('pending','approved','taken') NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -134,12 +134,12 @@ CREATE TABLE `pinjam` (
 --
 
 INSERT INTO `pinjam` (`idPinjam`, `kode`, `ukuran`, `jumlah`, `toko1`, `jenisBarang`, `merk`, `tglPinjam`, `toko2`, `status`) VALUES
-(5, 'JOCL21', 'M', 8, 'B', 'kaos', 'tshirt', '2018-08-09 22:59:37', 'A', ''),
-(6, 'W0E1RG', 'XL', 4, 'D', 'batik', 'bateeq', '2018-08-09 23:00:51', 'A', ''),
-(7, '3EL1SM', 'L', 2, 'A', 'kaos', 'Polo', '2018-08-09 23:11:02', 'D', ''),
-(8, 'W0E1RG', 'M', 10, 'D', 'batik', 'bateeq', '2018-08-09 23:17:45', 'A', ''),
-(9, '1CPJ7A', 'L', 1, 'B', 'hijab', 'Elzata', '2018-08-14 10:26:19', 'D', ''),
-(10, '1CPJ7A', 'L', 3, 'B', 'hijab', 'Elzata', '2018-08-14 10:31:14', 'A', '');
+(5, 'JOCL21', 'M', 8, 'B', 'kaos', 'tshirt', '2018-08-09 22:59:37', 'A', 'taken'),
+(6, 'W0E1RG', 'XL', 4, 'D', 'batik', 'bateeq', '2018-08-12 23:00:51', 'A', 'taken'),
+(7, '3EL1SM', 'L', 2, 'A', 'kaos', 'Polo', '2018-08-16 23:11:02', 'D', 'pending'),
+(8, 'W0E1RG', 'M', 10, 'D', 'batik', 'bateeq', '2018-08-10 23:17:45', 'A', 'taken'),
+(9, '1CPJ7A', 'L', 1, 'B', 'hijab', 'Elzata', '2018-08-10 10:26:19', 'A', 'approved'),
+(10, '1CPJ7A', 'L', 3, 'B', 'hijab', 'Elzata', '2018-08-14 10:31:14', 'A', 'approved');
 
 -- --------------------------------------------------------
 

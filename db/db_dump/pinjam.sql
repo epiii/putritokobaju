@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 14, 2018 at 11:21 PM
+-- Generation Time: Aug 18, 2018 at 03:38 PM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `toko`
+-- Database: `putritokobaju`
 --
 
 -- --------------------------------------------------------
@@ -45,10 +45,10 @@ CREATE TABLE `pinjam` (
 
 INSERT INTO `pinjam` (`idPinjam`, `kode`, `ukuran`, `jumlah`, `toko1`, `jenisBarang`, `merk`, `tglPinjam`, `toko2`, `status`) VALUES
 (5, 'JOCL21', 'M', 8, 'B', 'kaos', 'tshirt', '2018-08-09 22:59:37', 'A', 'taken'),
-(6, 'W0E1RG', 'XL', 4, 'D', 'batik', 'bateeq', '2018-08-09 23:00:51', 'A', 'pending'),
-(7, '3EL1SM', 'L', 2, 'A', 'kaos', 'Polo', '2018-08-09 23:11:02', 'D', 'taken'),
+(6, 'W0E1RG', 'XL', 4, 'D', 'batik', 'bateeq', '2018-08-12 23:00:51', 'A', 'taken'),
+(7, '3EL1SM', 'L', 2, 'A', 'kaos', 'Polo', '2018-08-16 23:11:02', 'D', 'pending'),
 (8, 'W0E1RG', 'M', 10, 'D', 'batik', 'bateeq', '2018-08-10 23:17:45', 'A', 'taken'),
-(9, '1CPJ7A', 'L', 1, 'B', 'hijab', 'Elzata', '2018-08-09 10:26:19', 'D', 'approved'),
+(9, '1CPJ7A', 'L', 1, 'B', 'hijab', 'Elzata', '2018-08-10 10:26:19', 'A', 'approved'),
 (10, '1CPJ7A', 'L', 3, 'B', 'hijab', 'Elzata', '2018-08-14 10:31:14', 'A', 'approved');
 
 --
