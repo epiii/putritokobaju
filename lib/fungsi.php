@@ -73,6 +73,7 @@
           ORDER BY
               tgl_pinjam DESC
               ';
+    // pr($tipe);
     // pr($s);
     $e=mysqli_query($conn,$s);
     $alerts='';
@@ -82,13 +83,13 @@
       if($tipe=='meminjam'){
         $color = 'success';
         $detailInfo = 'Toko <strong>'.$r['toko1'].'</strong> telah menyediakan barang dengan';
-        $button = '<a href="#" class="btn btn-xs btn-success pull-rightx"
+        $button = '<a href="#" class="btn btn-xs btn-success pull-rightx float-right"
             data-toggle="modal"
             data-target="#confirmModal"
             onclick="ambilBarang('.$r['idPinjam'].')"
-            merk '.$r['merk'].',
-            ukuran '.$r['ukuran'].',
-            jumlah '.$r['jumlah'].'
+            merk="'.$r['merk'].'",
+            ukuran="'.$r['ukuran'].'",
+            jumlah="'.$r['jumlah'].'"
             data-message="Anda yakin sudah mengambil
               (
                 '.$r['jumlah'].'
@@ -100,13 +101,44 @@
             >
               ambil
             </a>';
-      } else {
+      }
+      else {
         $color = 'warning';
         $detailInfo = 'Toko <strong>'.$r['toko2'].'</strong> ingin meminjam';
-        $button ='';
+        $button = '<a href="#" class="btn btn-xs btn-warning pull-rightx float-right"
+            id="sediakan_'.$r['idPinjam'].'"
+            data-toggle="modal"
+            data-target="#formModal"
+            onclick="formSediakanBarang('.$r['idPinjam'].')"
+            jenisBarang="'.$r['jenisBarang'].'",
+            merk="'.$r['merk'].'",
+            ukuran="'.$r['ukuran'].'",
+            jumlah="'.$r['jumlah'].'"
+            >
+              sediakan
+            </a>
+            <a  href="#"
+                onclick="tolakPeminjaman('.$r['idPinjam'].');return false;"
+                class="btn btn-secondary btn-xs float-right"
+
+                data-toggle="modal"
+                data-target="#confirmModal"
+                onclick="tolak('.$r['idPinjam'].')"
+                data-message="Anda yakin menolak permintaan
+                  (
+                    '.$r['jumlah'].'
+                    '.$r['jenisBarang'].',
+                    merk '.$r['merk'].',
+                    ukuran '.$r['ukuran'].'
+                  ) dr toko '.$r['toko2'].'
+                ?"
+            >
+              Tolak
+            </a>
+            ';
       }
 
-      $alerts.='<div id="idAlert_'.$r['idPinjam'].'" class="alert alert-'.$color.'">
+      $alerts.='<div id="idAlert_'.$r['idPinjam'].'" class="alert alert-'.$color.'" role="alert">
           '.$button.'
           '.$detailInfo.'
           jenis <b>'.$r['jenisBarang'].'</b>,
